@@ -1,0 +1,53 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/chooseVegetables/chooseVegetables",
+    "pages/meatSelection/meatSelection",
+    "pages/personalCentre/personalCentre",
+    "components/material/material",
+    "pages/displaysTheAnalyzedContent/displaysTheAnalyzedContent",
+    "pages/listOfMatches/listOfMatches"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "简Fan",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8",
+    "navigationStyle": "custom"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "custom": true,
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "合成",
+        "iconPath": "static/imgs/pingdiguo.png",
+        "selectedIconPath": "static/imgs/pingdiguo.png"
+      },
+      {
+        "pagePath": "pages/chooseVegetables/chooseVegetables",
+        "text": "蔬菜",
+        "iconPath": "static/imgs/baicai1.png",
+        "selectedIconPath": "static/imgs/baicai.png"
+      },
+      {
+        "pagePath": "pages/meatSelection/meatSelection",
+        "text": "肉类",
+        "iconPath": "static/imgs/jitui1.png",
+        "selectedIconPath": "static/imgs/jitui.png"
+      },
+      {
+        "pagePath": "pages/personalCentre/personalCentre",
+        "text": "萃盒"
+      }
+    ]
+  },
+  "usingComponents": {
+    "nav-bar-q-j": "/components/navBar/navBar",
+    "bot-nav-bar-q-j": "/components/botNavBar/botNavBar"
+  }
+}
