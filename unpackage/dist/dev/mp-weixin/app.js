@@ -9,6 +9,7 @@ if (!Math) {
   "./components/material/material.js";
   "./pages/displaysTheAnalyzedContent/displaysTheAnalyzedContent.js";
   "./pages/listOfMatches/listOfMatches.js";
+  "./pages/searchBox/searchBox.js";
 }
 const _sfc_main = {
   onLaunch: function() {

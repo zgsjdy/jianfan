@@ -6,7 +6,8 @@
     "pages/personalCentre/personalCentre",
     "components/material/material",
     "pages/displaysTheAnalyzedContent/displaysTheAnalyzedContent",
-    "pages/listOfMatches/listOfMatches"
+    "pages/listOfMatches/listOfMatches",
+    "pages/searchBox/searchBox"
   ],
   "window": {
     "navigationBarTextStyle": "black",

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "简Fan",
+  "usingComponents": {
+    "com-search-box": "../../components/comSearchBox/comSearchBox"
+  }
+}

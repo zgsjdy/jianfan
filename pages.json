@@ -42,6 +42,13 @@
         	{
         		"navigationBarTitleText" : "简Fan"
         	}
+        },
+        {
+        	"path" : "pages/searchBox/searchBox",
+        	"style" : 
+        	{
+        		"navigationBarTitleText" : "简Fan"
+        	}
         }
     ],
     "globalStyle" : {

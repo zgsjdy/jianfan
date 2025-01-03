@@ -63,7 +63,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }, {
       name: "tipArea",
       path: "e",
-      vueId: "64d857ed-2"
+      vueId: "20ed376b-2"
     })
   } : {}, {
     f: $setup.bottf.QJScreenOnce.botNav

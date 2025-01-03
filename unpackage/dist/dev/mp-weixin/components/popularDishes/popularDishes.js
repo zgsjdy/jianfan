@@ -3,12 +3,14 @@ const common_vendor = require("../../common/vendor.js");
 const utils_getSysInf = require("../../utils/getSysInf.js");
 const stores_counter = require("../../stores/counter.js");
 if (!Array) {
+  const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
   const _easycom_listPopu2 = common_vendor.resolveComponent("listPopu");
-  _easycom_listPopu2();
+  (_easycom_uni_icons2 + _easycom_listPopu2)();
 }
+const _easycom_uni_icons = () => "../../uni_modules/uni-icons/components/uni-icons/uni-icons.js";
 const _easycom_listPopu = () => "../listPopu/listPopu.js";
 if (!Math) {
-  _easycom_listPopu();
+  (_easycom_uni_icons + _easycom_listPopu)();
 }
 const _sfc_main = {
   __name: "popularDishes",
@@ -116,38 +118,48 @@ const _sfc_main = {
         }),
         b: common_vendor.n(common_vendor.unref(swiclass)),
         c: common_vendor.s(`opacity: ${common_vendor.unref(swiclass) === "" ? 1 : 0};`),
-        d: common_vendor.n(common_vendor.unref(tsanim)),
-        e: common_vendor.f(common_vendor.unref(popular).data, (itme, index, i0) => {
+        d: common_vendor.p({
+          type: "search",
+          size: "3vh",
+          color: "#924BDA"
+        }),
+        e: common_vendor.p({
+          type: "checkmarkempty",
+          size: "5vh",
+          color: "#fff"
+        }),
+        f: common_vendor.n(common_vendor.unref(tsanim)),
+        g: common_vendor.f(common_vendor.unref(popular).data, (itme, index, i0) => {
           return {
             a: common_vendor.t(itme),
             b: `/pages/displaysTheAnalyzedContent/displaysTheAnalyzedContent?nameId=${itme}`,
             c: index
           };
         }),
-        f: common_vendor.n(common_vendor.unref(tsanim)),
-        g: common_vendor.n(common_vendor.unref(tsanim)),
-        h: common_vendor.unref(popularimg).data,
-        i: common_vendor.n(common_vendor.unref(goToData).QJScreenOnce.botNavAnimClass),
-        j: common_vendor.s(`opacity: ${common_vendor.unref(goToData).QJScreenOnce.botNavAnimClass === "" ? 1 : 0};`),
-        k: common_vendor.p({
+        h: common_vendor.n(common_vendor.unref(tsanim)),
+        i: common_vendor.n(common_vendor.unref(tsanim)),
+        j: common_vendor.unref(popularimg).data,
+        k: common_vendor.n(common_vendor.unref(goToData).QJScreenOnce.botNavAnimClass),
+        l: common_vendor.s(`opacity: ${common_vendor.unref(goToData).QJScreenOnce.botNavAnimClass === "" ? 1 : 0};`),
+        m: common_vendor.p({
           listpopuData: common_vendor.unref(listpopuData)
         }),
-        l: common_vendor.r("tipArea", {
+        n: common_vendor.r("tipArea", {
           tipAreadata: {
             goTo: common_vendor.unref(goToData).QJpopularchVmeSel[0],
             tsanim: common_vendor.unref(tsanim),
             tishianim
           }
         }),
-        m: common_vendor.unref(popfloatimg)[common_vendor.unref(goToData).analyseStyle.countDown],
-        n: common_vendor.unref(animationData)[common_vendor.unref(goToData).analyseStyle.countDown % 2 === 0 ? 0 : 1],
-        o: common_vendor.t(common_vendor.unref(goToData).analyseStyle.countDown),
-        p: common_vendor.o(($event) => closeAndConfirm("取消")),
-        q: common_vendor.o(($event) => closeAndConfirm("确认")),
-        r: common_vendor.o(() => {
+        o: common_vendor.unref(popfloatimg)[common_vendor.unref(goToData).analyseStyle.countDown],
+        p: common_vendor.unref(animationData)[common_vendor.unref(goToData).analyseStyle.countDown % 2 === 0 ? 0 : 1],
+        q: common_vendor.t(common_vendor.unref(goToData).analyseStyle.countDown),
+        r: common_vendor.o(($event) => closeAndConfirm("取消")),
+        s: common_vendor.o(($event) => closeAndConfirm("确认")),
+        t: common_vendor.o(() => {
         }),
-        s: common_vendor.s(common_vendor.unref(goToData).analyseStyle),
-        t: common_vendor.o(reviseAnalyStyle)
+        v: common_vendor.s(common_vendor.unref(goToData).analyseStyle),
+        w: common_vendor.o(reviseAnalyStyle)
       };
     };
   }

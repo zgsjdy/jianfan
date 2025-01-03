@@ -13,6 +13,21 @@
 	</swiper>
 	
 	
+	<!-- 搜索框 跳转 -->
+	<navigator url="/pages/searchBox/searchBox" hover-class="none" class="searbox">
+		<view class="sealeft">
+			<input type="text" confirm-type="search" cursor-color="#914600" disabled class="navinput"/>
+			
+			<uni-icons type="search" size="3vh" color="#924BDA" class="seaicons"></uni-icons>
+		</view>
+		
+		
+		<view class="searight">
+			<uni-icons type="checkmarkempty" size="5vh" color="#fff"></uni-icons>
+		</view>
+	</navigator>
+	
+	
 	<!-- 热门菜部分 -->
 	<view 
 	class="popubox" 
@@ -302,6 +317,18 @@ yun('jianfandata','jfSysContentsData').then(res => {//异步
 	}
 	.swianim{animation: swianim 1.5s;}
 	
+	// 搜索框 跳转
+	@keyframes searbox {
+		1%{
+			opacity: 0;
+			transform: scale(0,0);
+		}
+		100%{
+			opacity: 1;
+			transform: scale(1,1);
+		}
+	}
+	
 	
 	
 	// 轮播图
@@ -334,9 +361,70 @@ yun('jianfandata','jfSysContentsData').then(res => {//异步
 	}
 	
 	
+	// 搜索框 跳转
+	.searbox{
+		width: 98%;
+		height: 5vh;
+		margin: 0 auto;
+		padding: 2px;
+		box-sizing: border-box;
+		overflow: hidden;
+		// border-radius: 20px;
+		// background-color: #D7FFFE;
+		position: relative;
+		top: -1%;
+		opacity: 0;  //配合动画
+		animation: searbox 2s forwards;
+		display: flex;
+		
+		
+		.sealeft{
+			height: 100%;
+			width: 90%;
+			background-color: #4B282B90;
+			border-radius: 50px;
+			
+			
+			.navinput{
+				height: 100%;
+				width: 91%;
+				
+			}
+			
+			.navinput::after{
+				position: absolute;
+				top: 28%;
+				left: 4%;
+				color: #fff;
+				letter-spacing: 5px;
+				font-size: 1.5vh;
+				content: "请输入菜名!";
+			}
+			
+			.seaicons{
+				position: absolute; 
+				top: 14%;
+				right: 11.5%;
+				box-sizing: border-box; 
+				padding: 0.5% 0 0 0.6%;
+				background-color: #fff; 
+				border-radius: 100px; 
+				width: 3.5vh;
+				height: 3.5vh;
+			}
+			
+		}
+		
+		.searight{
+			height: 100%;
+			width: 10%;
+		}
+	}
+	
+	
 	// 内容区域
 	.popubox{
-		margin: 50rpx auto 0 auto;
+		margin: 0 auto;
 		width: 98%;
 		height: 18vh;
 		background-image: linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%);
