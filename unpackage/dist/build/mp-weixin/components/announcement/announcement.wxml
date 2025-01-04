@@ -1,1 +1,0 @@
-<view class="anncembox data-v-d4081644" style="{{g}}"><view class="notice data-v-d4081644"><view class="notTitle data-v-d4081644">{{a}}</view><view class="notcen data-v-d4081644">{{b}}</view><view class="notbut data-v-d4081644" bindtap="{{e}}" style="{{f}}"> 我知道了 <text class="data-v-d4081644" hidden="{{!d}}">({{c}})</text></view></view></view>

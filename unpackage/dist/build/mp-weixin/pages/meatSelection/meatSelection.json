@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "简Fan",
-  "usingComponents": {
-    "folding-panel": "../../components/foldingPanel/foldingPanel"
-  }
-}

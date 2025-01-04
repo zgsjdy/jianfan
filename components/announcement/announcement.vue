@@ -126,6 +126,9 @@ import { reactive, ref } from 'vue';
 					},800)
 					
 					
+				}else if(openData.noticeOpenorNot === false ){
+					// console.log(openData.noticeOpenorNot === false)
+					clearInterval(setelsid);
 				}
 			},1000)
 			

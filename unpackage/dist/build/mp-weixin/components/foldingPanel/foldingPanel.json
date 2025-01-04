@@ -1,8 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "material": "../material/material",
-    "uni-collapse-item": "../../uni_modules/uni-collapse/components/uni-collapse-item/uni-collapse-item",
-    "uni-collapse": "../../uni_modules/uni-collapse/components/uni-collapse/uni-collapse"
-  }
-}

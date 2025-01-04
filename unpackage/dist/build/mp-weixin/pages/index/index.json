@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "简Fan",
-  "usingComponents": {
-    "df-screen-once": "../../components/dfScreenOnce/dfScreenOnce",
-    "popular-dishes": "../../components/popularDishes/popularDishes"
-  }
-}
