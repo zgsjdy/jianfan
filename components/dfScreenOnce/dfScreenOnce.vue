@@ -1,5 +1,5 @@
 <template>   												<!-- 注意css要有空格，直接写%不能完全适配 -->
-	<view class="bodybox" v-if="dfimg.data" :style="`height: calc(100vh - ${statusBarHeight + menheight+2}px);`"><!-- v-if="dfimg.data"  解决提前加载访问数据为空报错 -->
+	<view class="bodybox" v-if="dfimg.data" ><!-- v-if="dfimg.data"  解决提前加载访问数据为空报错 -->
 		<image v-for="(itme,index) in dfimg.data.floatimg" 
 		:key="index" 
 		:src="itme" 
@@ -63,7 +63,7 @@
 		}
 		100%{
 			opacity: 1;
-			transform: translateY(50%);
+			transform: translateY(36%);
 		}
 	}
 	.moareone{animation: moareone 1.5s;}
@@ -71,7 +71,7 @@
 		1%{
 			border-color: #ffaaff;
 			border-radius: 20px;
-			transform: scale(1,1) translateY(50%);
+			transform: scale(1,1) translateY(36%);
 		}
 		10%{
 			border-color: #c4acff;
@@ -91,7 +91,7 @@
 		100%{
 			border-color: transparent;
 			border-radius: 0px;
-			transform: scale(1.08,1.08) translateY(50%);
+			transform: scale(1.08,1.08) translateY(36%);
 		}
 	}
 	.moarebox{animation: moarebox 3s alternate infinite linear;}
@@ -115,11 +115,11 @@
 	@keyframes jemoar {
 		1%{
 			opacity: 1;
-			transform: scale(1,1) translateY(50%);
+			transform: scale(1,1) translateY(36%);
 		}
 		25%{
 			opacity: 0;
-			transform: scale(0,0) translateY(-50%);
+			transform: scale(0,0) translateY(-36%);
 		}
 		26%{
 			opacity: 0;
@@ -154,9 +154,11 @@
 	//static样式
 	.bodybox{
 		width: 100%;
+		height: 100vh;
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		overflow: hidden;
 		.floatimg{
 			width: 11%;
 			height: 8%;
@@ -172,8 +174,8 @@
 			margin: 0;
 			padding: 0;
 			width: 25%;
-			height: 38%;
-			transform: translateY(50%);
+			height: 35%;
+			transform: translateY(36%);
 			border: 3px dashed #ffaaff;
 			border-top: none;
 			border-bottom: none;

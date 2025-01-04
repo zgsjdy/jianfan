@@ -1,4 +1,8 @@
 <template>
+	<!-- 公告部分 -->
+	<announcement :noticeOpenor="openorData"></announcement>
+	
+	
 	<!-- 轮播图部分 -->
 	<swiper autoplay circular class="swi" :class="swiclass" :style="`opacity: ${swiclass === '' ? 1 : 0};`">
 		<swiper-item v-for="(itme,index) in swiperData.popularDishesSwiper" :key="index">
@@ -106,6 +110,8 @@ function navimgload(id){
 //列表数据
 let listpopuData = reactive({});
 
+// 公告组件数据
+let openorData = {};
 
 // 获取热门菜数据
 let popular = {Aname:"热门菜数据"};
@@ -120,6 +126,9 @@ yun('jianfandata','jfSysContentsData').then(res => {//异步
 	popularimg.data = res[0].popularDishesimg;
 	swiperData = Object.assign(swiperData,res[3]);
 	listpopuData = Object.assign(listpopuData,res[4]);  //注意不能直接listpopuData = res[4] 赋值会改变原对象会让传值的页面显示不了数据
+	
+	openorData = Object.assign(openorData,res[5]); // 给公告组件
+	
 	// console.log(res)
 	//给全局变量
 	goToData.QJpopularchVmeSel = Object.assign(goToData.QJpopularchVmeSel,res)

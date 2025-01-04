@@ -2,8 +2,8 @@ import { reactive } from 'vue';
 import { useBotNarStor } from '@/stores/counter'  //导入pinia
 const bottf = useBotNarStor()  //获取pinia数据
 // 获取顶部导航栏高度
-import { getTobBotMar, yun } from '@/utils/getSysInf.js';
-const { menheight,statusBarHeight } = getTobBotMar('top')  //获取顶部安全距离menheight胶囊高度，statusBarHeight导航栏安全区高度
+import { yun } from '@/utils/getSysInf.js';
+// const { menheight,statusBarHeight } = getTobBotMar('top')  //获取顶部安全距离menheight胶囊高度，statusBarHeight导航栏安全区高度
 
 // ************最后要向外部提供数据***********
 export default function(){
@@ -197,7 +197,7 @@ export default function(){
 		}
 		
 		// 向外部提供数据
-		return{ anim, dfimg, loadImgAnim, reviseMovAnim, resetMov, touStart, menheight, statusBarHeight }
+		return{ anim, dfimg, loadImgAnim, reviseMovAnim, resetMov, touStart }
 }
 
 
