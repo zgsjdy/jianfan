@@ -17,7 +17,17 @@
 			@change="reviseMovAnim" 
 			@touchend="resetMov"
 			@touchstart="touStart"
-			:style="`opacity: ${anim.animclass == 'jemoar' ? 0 : 1};`"
+			:style="`opacity: ${anim.animclass == 'jemoar' ? 0 : 1}; 
+			${
+				anim.animclassimg === 'moarimgzhuan' ? `
+				border: 3px double #aaffff;
+				outline: #55ff7f 4px double;
+				outline-offset: 5px;`  :  `
+				border: 2px solid #ff5500;
+				outline: #a7c3ff 3px double;
+				outline-offset: 3px;`
+			}
+			`"
 			:y="anim.butResetY" 
 			class="moview"  
 			:class="anim.animclassimg"
@@ -103,6 +113,22 @@
 		}
 	}
 	.moarimg{animation: moarimg 1s alternate infinite linear;}
+	
+	// 按钮长按后退出的衔接到默认动画的过度中间动画，这里开始属性要和下面moarimgtu的结尾而100%要和moarimg1%一致才连贯
+	@keyframes moarimgzhuan {
+		1%{
+			border: 3px double #aaffff;
+			outline: #55ff7f 4px double;
+			outline-offset: 5px;
+		}
+		100%{
+			border: 2px solid #ff5500;
+			outline: #a7c3ff 3px double;
+			outline-offset: 3px;
+		}
+	}
+	.moarimgzhuan{animation: moarimgzhuan 0.8s forwards;}
+	
 	@keyframes moarimgtu {
 		100%{
 			border: 3px double #aaffff;
@@ -174,7 +200,7 @@
 			margin: 0;
 			padding: 0;
 			width: 25%;
-			height: 35%;
+			height: 34%;
 			transform: translateY(36%);
 			border: 3px dashed #ffaaff;
 			border-top: none;
@@ -190,10 +216,15 @@
 				border-radius: 50%;
 				padding-top: calc(80% - 4px);  //居于80%父元素的宽度减去里面包含的图片元素10px
 				position: relative;
+				
+				/* // 配合动画不闪屏
 				border: 2px solid #ff5500;
 				outline: #a7c3ff 3px double;
-				outline-offset: 3px;
+				outline-offset: 3px; */
+				
+				
 				.dfimg{
+					border-radius: 50%;
 					box-sizing: border-box;
 					margin: 0;
 					padding: 0;

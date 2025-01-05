@@ -1,0 +1,1 @@
+<view class="bodyboxback"><nav-bar-q-j wx:if="{{a}}" u-i="d5576b36-0" bind:__l="__l" u-p="{{a}}"></nav-bar-q-j><cooking-details-module wx:if="{{b}}" u-i="d5576b36-1" bind:__l="__l" u-p="{{b}}"></cooking-details-module></view>

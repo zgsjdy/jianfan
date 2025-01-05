@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "简Fan",
+  "usingComponents": {
+    "material": "../../components/material/material"
+  }
+}

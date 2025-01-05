@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "announcement": "../announcement/announcement",
+    "uni-icons": "../../uni_modules/uni-icons/components/uni-icons/uni-icons",
+    "list-popu": "../listPopu/listPopu"
+  }
+}

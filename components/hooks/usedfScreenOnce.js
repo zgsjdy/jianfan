@@ -132,9 +132,19 @@ export default function(){
 		// 按钮复位函数
 		let jwdisabled = true;  //使用户在最后结尾不在运行返回动画
 		let runningzhong = false //判断返回动画是不是运行中，防止和底部专场动画冲突
+		let moarsetid; //恢复默认动画定时器id
 		function resetMov(){
 			anim.butResetY = 1  //为零0失效
-			anim.animclassimg = "moarimg"
+			anim.animclassimg = "moarimgzhuan"
+			
+			moarsetid = setTimeout(()=>{
+				clearTimeout(moarsetid);  //逻辑上可以不写，这里以防万一
+				
+				anim.animclassimg = "moarimg"  //恢复默认动画
+				// console.log("恢复默认动画完毕！")
+				
+			},800)
+			
 			// console.log(AnimComparative)
 			// console.log(jwdisabled)
 			
@@ -191,8 +201,12 @@ export default function(){
 			},80)
 		}
 		
+		
+		
+		
 		//按住按钮切换class动画名
 		function touStart(){
+			clearTimeout(moarsetid);  //清除恢复默认动画定时器
 			anim.animclassimg = "moarimgtu"
 		}
 		

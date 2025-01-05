@@ -615,6 +615,7 @@ const propsZ = defineProps({
 				font-size: 3vw;
 				flex-basis: 17%;
 				background-color: #9a9a9a;
+				transition: all 0.1s;
 				// background-color: #ff557f;
 			}
 			.tileft:active{
@@ -640,6 +641,7 @@ const propsZ = defineProps({
 				font-size: 3vw;
 				flex-basis: 17%;
 				background-color: #9a9a9a;
+				transition: all 0.1s;
 				// background-color: #55aa00;
 			}
 			.tiright:active{

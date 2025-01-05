@@ -1,0 +1,1 @@
+<view class="bodyboxback"><nav-bar-q-j wx:if="{{a}}" u-i="69b21d89-0" bind:__l="__l" u-p="{{a}}"></nav-bar-q-j><folding-panel u-i="69b21d89-1" bind:__l="__l"></folding-panel><bot-nav-bar-q-j u-i="69b21d89-2" bind:__l="__l"></bot-nav-bar-q-j></view>
