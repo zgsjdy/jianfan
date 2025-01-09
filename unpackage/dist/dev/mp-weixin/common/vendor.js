@@ -3177,6 +3177,27 @@ const shallowUnwrapHandlers = {
 function proxyRefs(objectWithRefs) {
   return isReactive(objectWithRefs) ? objectWithRefs : new Proxy(objectWithRefs, shallowUnwrapHandlers);
 }
+class CustomRefImpl {
+  constructor(factory) {
+    this.dep = void 0;
+    this.__v_isRef = true;
+    const { get: get2, set: set2 } = factory(
+      () => trackRefValue(this),
+      () => triggerRefValue(this)
+    );
+    this._get = get2;
+    this._set = set2;
+  }
+  get value() {
+    return this._get();
+  }
+  set value(newVal) {
+    this._set(newVal);
+  }
+}
+function customRef(factory) {
+  return new CustomRefImpl(factory);
+}
 function toRefs(object) {
   if (!isProxy(object)) {
     warn$2(`toRefs() expects a reactive object but received a plain one.`);
@@ -4305,6 +4326,15 @@ function inject(key, defaultValue, treatDefaultAsFactory = false) {
 }
 function hasInjectionContext() {
   return !!(currentInstance || currentRenderingInstance || currentApp);
+}
+/*! #__NO_SIDE_EFFECTS__ */
+// @__NO_SIDE_EFFECTS__
+function defineComponent(options, extraOptions) {
+  return isFunction(options) ? (
+    // #8326: extend call and options.name access are considered side-effects
+    // by Rollup, so we have to wrap it in a pure-annotated IIFE.
+    /* @__PURE__ */ (() => extend({ name: options.name }, extraOptions, { setup: options }))()
+  ) : options;
 }
 const isKeepAlive = (vnode) => vnode.type.__isKeepAlive;
 function onActivated(hook, target) {
@@ -8941,7 +8971,7 @@ class v {
 function I(e2) {
   return e2 && "string" == typeof e2 ? JSON.parse(e2) : e2;
 }
-const S = true, b = "mp-weixin", A = I(define_process_env_UNI_SECURE_NETWORK_CONFIG_default), C = b, P = I('{\n    "address": [\n        "127.0.0.1",\n        "192.168.46.71"\n    ],\n    "debugPort": 9000,\n    "initialLaunchType": "local",\n    "servePort": 7000,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/软件/hbuiderIDE/HBuilderX.4.24.2024072208/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), T = I('[{"provider":"alipay","spaceName":"jianfan","spaceId":"env-00jxhfmhzs0p","spaceAppId":"2021004188649460","accessKey":"D5ztpwq1BJVk9P6P","secretKey":"3G72kVYvXZeuNeuF"}]') || [];
+const S = true, b = "mp-weixin", A = I(define_process_env_UNI_SECURE_NETWORK_CONFIG_default), C = b, P = I('{\n    "address": [\n        "127.0.0.1",\n        "192.168.139.71"\n    ],\n    "debugPort": 9000,\n    "initialLaunchType": "local",\n    "servePort": 7001,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/软件/hbuiderIDE/HBuilderX.4.24.2024072208/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), T = I('[{"provider":"alipay","spaceName":"jianfan","spaceId":"env-00jxhfmhzs0p","spaceAppId":"2021004188649460","accessKey":"D5ztpwq1BJVk9P6P","secretKey":"3G72kVYvXZeuNeuF"}]') || [];
 let O = "";
 try {
   O = "__UNI__EDED3BF";
@@ -11415,10 +11445,13 @@ exports.Ys = Ys;
 exports._export_sfc = _export_sfc;
 exports.createPinia = createPinia;
 exports.createSSRApp = createSSRApp;
+exports.customRef = customRef;
+exports.defineComponent = defineComponent;
 exports.defineStore = defineStore;
 exports.e = e$1;
 exports.f = f$1;
 exports.index = index;
+exports.isRef = isRef;
 exports.n = n$1;
 exports.o = o$1;
 exports.onMounted = onMounted;

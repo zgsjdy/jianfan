@@ -37,9 +37,32 @@ module.exports = {
 		const collection = db.collection(conPage);
 		const result = await collection.where(whetherExpression?newObj:obj).get();
 		return result;
+	},
+	
+	
+	// 搜索框搜索函数（不通用，可以修改）
+	async queryDataByInputValue(conPage='jfContentsData', inputValue, queConst, sort='升序'){
+		
+		// 把带字符串的obj值转成正则表达式
+		let newObj = {}, ordername;
+		for(let key in inputValue){
+			if(typeof inputValue[key] === 'string'){
+				newObj[key] = new RegExp(inputValue[key],'i');
+				ordername = key;  //给排序用
+				
+				break;  //让只有第一个值有用
+			}
+		}
+		
+		
+		
+		// 获取数据库数据
+		const collection = db.collection(conPage);
+		
+		const result = await collection.where(newObj).orderBy(ordername, sort === '升序' ? 'asc' : 'desc').limit(queConst).get();
+		
+		return result;
 	}
-	
-	
 	
 	
 }

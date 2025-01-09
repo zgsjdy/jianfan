@@ -131,8 +131,8 @@ const _sfc_main = {
           color: "#924BDA"
         }),
         f: common_vendor.p({
-          type: "checkmarkempty",
-          size: "5vh",
+          type: "settings",
+          size: "4.3vh",
           color: "#fff"
         }),
         g: common_vendor.n(common_vendor.unref(tsanim)),

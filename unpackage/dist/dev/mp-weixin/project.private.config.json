@@ -3,5 +3,18 @@
   "projectname": "jianfan",
   "setting": {
     "compileHotReLoad": false
+  },
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/searchBox/searchBox",
+          "pathName": "pages/searchBox/searchBox",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
   }
 }

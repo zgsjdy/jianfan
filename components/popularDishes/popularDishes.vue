@@ -27,7 +27,7 @@
 		
 		
 		<view class="searight">
-			<uni-icons type="checkmarkempty" size="5vh" color="#fff"></uni-icons>
+			<uni-icons type="settings" size="4.3vh" color="#fff"></uni-icons>
 		</view>
 	</navigator>
 	

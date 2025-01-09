@@ -140,8 +140,8 @@ export default function(){
 			moarsetid = setTimeout(()=>{
 				clearTimeout(moarsetid);  //逻辑上可以不写，这里以防万一
 				
-				anim.animclassimg = "moarimg"  //恢复默认动画
-				// console.log("恢复默认动画完毕！")
+				anim.animclassimg = "moarimg"  //恢复按钮默认动画
+				// console.log("恢复按钮默认动画完毕！")
 				
 			},800)
 			

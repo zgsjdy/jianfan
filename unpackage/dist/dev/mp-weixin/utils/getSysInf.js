@@ -49,6 +49,16 @@ async function fuzzySearch(uniCloudName, collect, obj, whetherExpression) {
     throw new Error(`参数错误fuzzySearch，默认无${e}`);
   }
 }
+async function queryInput(uniCloudName, conPage, inputValue, queConst, sort) {
+  try {
+    const jianfandata = common_vendor.Ys.importObject(uniCloudName);
+    let res = await jianfandata.queryDataByInputValue(conPage, inputValue, queConst, sort);
+    return res;
+  } catch (e) {
+    throw new Error(`参数错误queryInput，默认无${e}`);
+  }
+}
 exports.fuzzySearch = fuzzySearch;
 exports.getTobBotMar = getTobBotMar;
+exports.queryInput = queryInput;
 exports.yun = yun;

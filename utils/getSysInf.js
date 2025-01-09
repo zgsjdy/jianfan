@@ -104,7 +104,23 @@ async function fuzzySearch(uniCloudName,collect,obj,whetherExpression){
 }
 
 
+// 搜索框搜索函数（不通用，可以修改）
+/**
+ * @param {Object} inputValue  传对象的时候只能是第一个值是字符串才有效 
+*/
+async function queryInput(uniCloudName, conPage, inputValue, queConst, sort){
+	try{
+		
+		const jianfandata = uniCloud.importObject(uniCloudName)//使用云对象jianfandata
+		let res = await jianfandata.queryDataByInputValue(conPage, inputValue, queConst, sort) //调用云对象里的那个属性方法
+		
+		return res;
+	}catch(e){
+		throw new Error(`参数错误queryInput，默认无${e}`);
+	}
+}
 
 
 
-export {getTobBotMar,yun,fuzzySearch}
+
+export {getTobBotMar,yun,fuzzySearch,queryInput}
