@@ -47,6 +47,7 @@ module.exports = {
 		let newObj = {}, ordername;
 		for(let key in inputValue){
 			if(typeof inputValue[key] === 'string'){
+				// ########## 这里只能写正则才有用，用双引号包着不行，正则不能用g不支持，其它地方像这里一样的同理只要在后端官方没改都一样 #############
 				newObj[key] = new RegExp(inputValue[key],'i');
 				ordername = key;  //给排序用
 				

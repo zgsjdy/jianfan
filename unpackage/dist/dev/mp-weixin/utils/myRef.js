@@ -11,7 +11,7 @@ function myRef(initValue, delay = 500) {
       set(setvalue) {
         clearTimeout(timeout);
         timeout = setTimeout(() => {
-          initValue = setvalue;
+          initValue = setvalue.replace(/ /g, "");
           trigger();
         }, delay);
       }

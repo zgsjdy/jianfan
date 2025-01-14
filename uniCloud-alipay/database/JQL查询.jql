@@ -9,4 +9,7 @@
 // 详细JQL语法，请参考：https://uniapp.dcloud.net.cn/uniCloud/jql.html
 
 // 下面示例查询uni-id-users表的所有数据
-db.collection('uni-id-users').get();
+// console.log(new RegExp("[西鸡蛋]" ,'gi'))
+db.collection('jfContentsData').where({
+	name:/[西红柿鸡蛋]/i
+}).orderBy('name','desc').limit(5).get();
