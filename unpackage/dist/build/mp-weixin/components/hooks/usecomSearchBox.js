@@ -1,0 +1,1 @@
+"use strict";const t=require("../../common/vendor.js");exports.usecomSearchBox=function(){let e=t.ref({}),n=t.ref("no-more");return{contentListData:e,contentStatus:n,reviseStatus:function(t){n.value=t}}};

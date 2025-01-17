@@ -139,6 +139,8 @@
   width: 90%;
   background-color: #4B282B90;
   border-radius: 50px;
+  outline: 6px double #fff;
+  outline-offset: -6px;
 }
 .searbox .sealeft .navinput.data-v-e2e3c586 {
   height: 100%;

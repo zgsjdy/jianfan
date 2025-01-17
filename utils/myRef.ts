@@ -1,5 +1,5 @@
 import { customRef } from 'vue';
-
+// *********   不公用(最好像要公用新写一个，搜索页面和这个函数依赖太高)  **********
 export default function<T>(initValue: T, delay: number = 500): {value:T} {  /* 注意这里用了大写属性类型，说明类型包装对象也是可以的，小写属性类型不可以 (已修改过) */
   let timeout: ReturnType<typeof setTimeout>;  //定时器id
   
@@ -20,6 +20,8 @@ export default function<T>(initValue: T, delay: number = 500): {value:T} {  /* �
 			  initValue = setvalue.replace(/ /g,""); // 更新值,去掉空格
 			  
 			  trigger(); //触发更新
+			  
+			  // console.log("已修改:"+setvalue,initValue)
 		  },delay)
       },
 	  

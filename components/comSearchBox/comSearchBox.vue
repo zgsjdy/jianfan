@@ -24,21 +24,57 @@
 			
 			
 			
-			<!-- 弹出提示框 -->
+			<!-- 弹出提示框 注意这里这里是没用ref获取虚拟dom是因为在组件里面获取不了微信的环境-->
 			<view class="searTips" :style="searSL.searTispStyle">
-				<view class="searTipsList" v-for="(itme,index) in searSL.searchTispData" :key="index" >
+				<view class="searContenBox">
 					
-					<rich-text :nodes="itme.mark" class="rich" :selectable="false" :preview="false" @click="clickDish(itme.name)"></rich-text>
-					
-					
-					<view class="searTipsList3D">
-						<view>
-							3D3D
+					<view class="searTipsList" v-for="(itme,index) in searSL.searchTispData" 
+					:key="index" :style="`margin-bottom: ${ index+1 === searSL.searchTispData.length ? 0 : '4%' };`">
+						
+						<rich-text :nodes="itme.mark" class="rich" :selectable="false" :preview="false" @click="clickDish(itme.name)"></rich-text>
+						
+						<view class="searTipsList3D">
+							<view>
+								3D3D
+							</view>
 						</view>
+						
 					</view>
+					
+					<!-- 加载,注意这里双引号和单引号contentText="这里面不能使用双引号，（容易忽略）" -->
+					<uni-load-more iconType="circle" :contentText="{
+						contentdown: 'o((>ω< ))o',
+						contentrefresh: '正在加载...',
+						contentnomore: '没有更多数据了'
+					}" :status="searSL.PopPromptsLoading"  />
+					
 				</view>
+					
 			</view>
 		</view>
+		
+		
+		<!-- 历史搜索记录 -->
+		<template v-if="hSDataSL.hSarr.length !== 0">
+			<view class="historySearch">
+				<view v-for="(itme,index) in hSDataSL.hSarr" :key="index" 
+				class="historySearchList"
+				:class="hSDataSL.whetherDelete ? 'historySearchListAfter' : ''"
+				@click="hSDataSL.deleteAnyClick(itme, index)">{{itme}}</view>
+				<!-- 注意###### @click=“这里面只能用单引号或模板字符串注意容易忽略，会写成双引号里面套双引号”   -->
+				
+				
+				<view class="delet">
+					<template v-if="!hSDataSL.whetherDelete">
+						<uni-icons type="trash" size="2vh"  @click="hSDataSL.setwhetherDelete(true)"></uni-icons>
+					</template>
+					<template v-else>
+						<uni-icons type="closeempty" size="2vh" @click="hSDataSL.setwhetherDelete(false)"></uni-icons>
+					</template>
+				</view>
+			</view>
+		</template>
+		
 		
 		<!-- 显示搜索内容区 -->
 		<template v-if="contentStatus === 'no-more'">
@@ -93,6 +129,7 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 	type searTispStyle = {
 		opacity: number;
 		transform:string;
+		height: string;
 		// [key: string]: string;
 	}
 	
@@ -103,9 +140,13 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 		searchTispData: {name?:string;[key:string]:any}[];
 		searTispStyle: searTispStyle;
 		newset: Set<Object>;
+		PopPromptsLoading: string;
+		
+		
 		// 方法
 		getWhetherOrNotToFocus(myget: boolean,e?: Object): string | Object;
 		getWhetherOrNotToBlur(myget: boolean,e?: Object): string | Object;
+		setHeight(height: number, num: number): void;
 	}
 	
 	class searFB {  /* 无简写 ,注意部分代码无用也没注释练习用的*/
@@ -115,6 +156,7 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 		searTispStyle: searTispStyle;
 		newset: Set<Object>;
 		
+		
 		constructor(whetherOrNotToFocus?: boolean, searchName?: string){
 			this.whetherOrNotToFocus = whetherOrNotToFocus ?? false;
 			this.searchName = searchName || '';
@@ -123,6 +165,7 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 			this.searTispStyle = {
 				opacity:0,
 				transform: "translateY(-12px) scale(1,0)",
+				height: "40vh"
 			}
 		}
 		
@@ -136,7 +179,11 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 		// protected：表示该属性是受保护的，只能在类及其子类中访问。
 		// readonly：表示该属性是只读的，初始化后不能修改。
 		
-		constructor( whetherOrNotToFocus?: boolean, searchName?: string, public houby: string = "不需要值（如果加了问号就不能有默认值）" ){
+		constructor( 
+		whetherOrNotToFocus?: boolean, 
+		searchName?: string, 
+		public PopPromptsLoading: string = "no-more"
+		){
 			
 			super(whetherOrNotToFocus,searchName) //调用父类构造函数
 			
@@ -145,6 +192,20 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 		
 		// 方法
 		
+		
+		setHeight(height: number, num: number): void{
+			let connunFixed: number = (height*num) + 9;
+			
+			if(num === 0 || height === 0){ 
+				this.searTispStyle.height = '9vh'; 
+			}
+			else if(connunFixed >= 40){
+				this.searTispStyle.height = '40vh';
+			}else{
+				this.searTispStyle.height = connunFixed.toFixed(1) + "vh"
+			}
+			
+		}
 		
 		/**
 		 *聚焦调用函数，并修改whetherOrNotToFocus值，失败返回input的event值，可进行其他操作
@@ -198,7 +259,8 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 	
 	
 	//自定义ref搜索框的值, *******修改会去掉空格*******
-	let searchNameMyref: REF  = myRef("",300), searSL: MyObject ;
+	const Titme: number = 300
+	let searchNameMyref: REF  = myRef("",Titme), searSL: MyObject ;
 	
 	// 在上面自定义ref处以声明
 	searSL = reactive(new searFBFun(false,searchNameMyref.value))
@@ -210,7 +272,7 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 	
 	// 监视,多个,注意只能监视响应式数据,自定义ref监视这里不用点value，因为监视的是ref，不是ref里面的值
 	watch([searchNameMyref, ()=> searSL.whetherOrNotToFocus],([newMY, newFO],[oldMY, oldFO])=>{
-		console.log(searchNameMyref.value)
+		
 		// 判断是否弹出搜索框提示
 		if(searSL.whetherOrNotToFocus){
 			
@@ -223,10 +285,14 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 					searSL.searchTispData = newmap.get(searchNameMyref.value)
 					
 					searSL.getWhetherOrNotToFocus(true)
+					searSL.setHeight(6.3, searSL.searchTispData.length)
+					searSL.PopPromptsLoading = 'more'
 				}else{
 					
+					searSL.PopPromptsLoading = "loading"
+					
 					// 调用搜索函数，异步函数then也是异步，网络慢会先运行then后面的代码
-					queryInput('jianfandata','jfContentsData',{name:searchNameMyref.value},5,"降序").then((res)=>{
+					queryInput('jianfandata','jfContentsData',{name:searchNameMyref.value},8,"降序").then((res)=>{
 						
 						if(res.data.length !== 0){
 							
@@ -251,19 +317,21 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 							
 							
 							// 添加键值对缓存/*这里理论上searSL.newset.size >= cache判断可以不写，上面使用缓存后就不运行这里了*/
-							if(searSL.newset.size >= cache){  
+							if(searSL.newset.size >= cache && searchNameMyref.value !== ""){
 								newmap.set(searchNameMyref.value, searSL.searchTispData)
 								cache = searSL.newset.size  //保持和Set长度统一
 							}
 								
 							
 							// 防止用户操作太快，监控失焦后网络慢会先运行关闭弹窗在运行下面这行打开弹窗代码
-							if(searSL.whetherOrNotToFocus){searSL.getWhetherOrNotToFocus(true)}
+							if(searSL.whetherOrNotToFocus){searSL.getWhetherOrNotToFocus(true);}
 								
-							
-							
+							searSL.setHeight(6.3, searSL.searchTispData.length)
+							searSL.PopPromptsLoading = "more"
 						}else{
 							searSL.searchTispData = []
+							searSL.setHeight(6.3, searSL.searchTispData.length)
+							searSL.PopPromptsLoading = "no-more"
 						}
 					});
 					
@@ -313,51 +381,89 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 	}
 	
 	
-	// 点击菜名函数
 	let { contentListData, contentStatus, reviseStatus } = usecomSearchBox()
 	
 	
-	async function clickDish(nameid?: string): Promise<void> {
-		let name: string = nameid || searchNameMyref.value ,res: {data: Object[]};
+	// 点击菜名闭包异步函数
+	function clickDishClosure(): Function {
+		let constnum: number = 0, constnumtTow: number = 0;
 		
 		
-		reviseStatus("no-more")
-		if(newmap.has(name)){
-			searchNameMyref.value = ""
-			contentListData.value = newmap.get(name)
-			reviseStatus("value")
-		}else{
+		return async function ClickDish(nameid?: string): Promise<void> {
+			let name: string = nameid || searchNameMyref.value ,res: {data: Object[]};
 			
-			// 添加缓存
-			if(name !== null && name !== undefined && pattern.test(name)){
-				reviseStatus("loading");
-				res = await queryInput('jianfandata','jfContentsData',{name:name},8,"降序")
+			// 判断searchNameMyref.value有没有值，nameid参数进来的都会有值
+			if(name !== nameid){
+				constnum++;
+				if(constnum === 1){
+					setTimeout(async ()=>{
+						// console.log(searchNameMyref.value,"clike") 
+						// 注意这块代码判断和给这个函数值，由于searchNameMyref.value是延迟的，所以上下文关系没处理好会先运行searchNameMyref.value = ""（快速多次点击下面代码）
+						await ClickDish(searchNameMyref.value); 
+						constnum = 0; //注意顺序
+					},Titme)
+				}
+				return
+			}
+			
+			reviseStatus("no-more")
+			if(newmap.has(name)){
+				contentListData.value = newmap.get(name)
+				// in 关键字用于检查对象是否具有指定的属性（包括方法）。语法是propertyName in object
+				if("addhSarr" in hSDataSL){ hSDataSL.addhSarr(name); }
+				reviseStatus("value")
+			}else{
 				
-				if(res.data.length !== 0){
-					// 处理标红
-					contentListData.value = res.data.map((itme:{name:string})=>{
-						const mark = `<div style="
-						width: 100%;
-						height: 100%;
-						font-size: 2.3vh;
-						line-height: 5vh;">${RedFunction(itme.name,name,'#ff7878')}</div>`
-						return {...itme,mark}
-						 
-					})
-					newmap.set(name, contentListData.value)
-					reviseStatus("value")
-				}else{
-					reviseStatus("no-more")
-					contentListData.value = []
+				// 添加缓存
+				if(name !== null && name !== undefined && pattern.test(name)){
+					reviseStatus("loading");
+					res = await queryInput('jianfandata','jfContentsData',{name:name},8,"降序")
+					
+					if(res.data.length !== 0){
+						// 处理标红
+						contentListData.value = res.data.map((itme:{name:string})=>{
+							const mark = `<div style="
+							width: 100%;
+							height: 100%;
+							font-size: 2.3vh;
+							line-height: 5vh;">${RedFunction(itme.name,name,'#ff7878')}</div>`
+							return {...itme,mark}
+							 
+						})
+						newmap.set(name, contentListData.value)
+						// in 关键字用于检查对象是否具有指定的属性（包括方法）。语法是propertyName in object
+						if("addhSarr" in hSDataSL){ hSDataSL.addhSarr(name); }
+						reviseStatus("value")
+					}else{
+						reviseStatus("no-more")
+						contentListData.value = []
+					}
+					
 				}
 				
 			}
 			
-			searchNameMyref.value = ""
+			//******注意******，这里要延迟执行防止用户过快按下键盘搜索键，页面输入框还是有用户输入的值，searchNameMyref.value有延迟，
+			//如延迟300用户输入西还没改就被系统赋值为空（函数可以传值可以不用靠searchNameMyref.value的值），导致vue会觉得两次内容没变不刷新页面
+			if(name === nameid && name !== undefined && name !== null && name !== ""){
+				constnumtTow++; //让定时器只运行一次
+				if(constnumtTow === 1){
+					setTimeout(()=>{
+						searchNameMyref.value = ""; 
+						constnumtTow = 0; //注意顺序,加防止快速点击键盘完成按钮
+						// console.log("$$$$$")
+					},Titme)
+				}
+			}else{
+				// 进这里已经使用过回调函数了，所以直接赋值不用延迟
+				searchNameMyref.value = ""; 
+			}
+			
 			
 		}
-		
 	}
+	// 使用闭包
+	let clickDish: Function = clickDishClosure()
 	
 	// 点击完成按钮时触发(键盘弹出按钮显示搜索)，event.detail = {value: value}
 	function confhandle(e:any): void{
@@ -366,6 +472,66 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 		// console.log(e.detail)
 	}
 	
+	
+	
+	
+	
+	interface hisSear {
+		hSarr:string[];
+		whetherDelete: boolean;
+		addhSarr(d: string): void;
+		setwhetherDelete(swi: boolean): void;
+		deleteAnyClick(str: string, index: number): void;
+	}
+	
+	// 缓存搜索历史
+	class historySearch {
+		constructor( public hSarr:string[] = [], public whetherDelete: boolean = false ){
+		}
+		
+		
+		addhSarr(d: string): void{
+			let index: number = this.hSarr.indexOf(d)
+			
+			if(this.hSarr.length >= 25){
+				this.hSarr.pop()
+			}
+			
+			if(index !== -1){
+				let numstr: string;
+				// 注意注意注意，容易搞乱
+				// slice：不修改原数组，只返回一个新数组。
+				// splice：会修改原数组。也有返回值
+				numstr = this.hSarr.splice(index, 1)[0] //后面【0】是因为splice会返回一个新数组，这里调用新数组第一项
+				if(numstr !== "" && numstr !== undefined && numstr !== null){
+					this.hSarr.unshift(d); //插入数组第一项
+				}
+			}else{
+				if(d !== "" && d !== undefined && d !== null){this.hSarr.unshift(d)}
+			}
+		}
+		
+		
+		setwhetherDelete(swi: boolean): void{
+			this.whetherDelete = swi;
+			// console.log(this.whetherDelete,swi)
+		}
+		
+		deleteAnyClick(str: string, index: number): void{
+			
+			if(this.whetherDelete){
+				this.hSarr.splice(index,1)
+				if(this.hSarr.length === 0){ this.whetherDelete = false }
+			}else{
+				searchNameMyref.value = str;
+			}
+			
+		}
+		
+	}
+	
+	let hSDataSL: hisSear = reactive(new historySearch())
+	console.log(hSDataSL)
 	
 </script>
 
@@ -397,13 +563,28 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 		}
 	}
 	
+	
+	// 搜索历史动画
+	@keyframes historySe {
+		1%{
+			opacity: 0;
+			transform: scale(1,0);
+		}
+		100%{
+			opacity: 1;
+			transform: scale(1,1);
+		}
+	}
+	
+	
+	
 	// ********注意这里用了scoped，还用了forwards****所以用行内样式写animation将会不起效果**********
 	.moarAnim{ 
 		animation: moarAnim 0.8s forwards; 
 		opacity: 0;//配合动画 
 	}
 	
-	// 搜索框
+	
 	.combox{
 		width: 98%;
 		margin: 0 auto;
@@ -428,8 +609,7 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 			.searTips{
 				--backTisp: #fff;
 				width: 75vw;
-				max-height: 31.1vh;
-				padding: 10px;
+				padding: 2%;
 				border-radius: 15px;
 				background-color: var(--backTisp);
 				opacity: 0; //配合动画
@@ -444,28 +624,34 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 				
 				// transform-style: preserve-3d;
 				
-				.searTipsList{
-					--richWidth: 80%;
+				.searContenBox{
 					width: 100%;
-					height: 5vh;
-					margin-bottom: 10px;
-					border-bottom: 1px dotted #aaaa00;
-					padding-bottom: 3px;
-					display: flex;
+					height: 100%;
+					overflow: hidden;
 					
-					.rich{
-						width: var(--richWidth);
-						height: 100%;
-						// background-color: #ff55ff50;
+					.searTipsList{
+						--richWidth: 80%;
+						width: 100%;
+						height: 5vh;
+						// margin-bottom: 4%;
+						border-bottom: 1px dotted #aaaa00;
+						padding-bottom: 3px;
+						display: flex;
+						
+						.rich{
+							width: var(--richWidth);
+							height: 100%;
+							// background-color: #ff55ff50;
+						}
+						
+						.searTipsList3D{
+							width: calc(100% - var(--richWidth));
+							height: 100%;
+							background-color: #aaaa00;
+						}
 					}
 					
-					.searTipsList3D{
-						width: calc(100% - var(--richWidth));
-						height: 100%;
-						background-color: #aaaa00;
-					}
 				}
-				
 				
 				
 			}
@@ -490,7 +676,9 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 				width: 90%;
 				background-color: #4B282B90;
 				border-radius: 50px;
-				padding-left: 10px;
+				padding-left: 15px;
+				outline: 6px double #fff;
+				outline-offset: -6px; //用outline代替border是让input元素不影响布局,注意父元素溢出隐藏，太大会看不到部分边框
 				
 				.navinput{
 					height: 100%;
@@ -501,7 +689,7 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 				
 				.seaicons{
 					position: absolute; 
-					top: 14%;
+					top: 14.87%;  //不修改样式的情况下，不建议修改14.87这个值
 					right: 11.5%;
 					box-sizing: border-box; 
 					padding: 0.5% 0 0 0.6%;
@@ -513,7 +701,7 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 				}
 				
 				.seaicons:active{
-					transform: scale(0.9,0.9);
+					transform: scale(0.88,0.88);
 				}
 				
 			}
@@ -529,6 +717,72 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 			}
 			
 		}
+		
+		
+		//收缩框历史
+		 .historySearch{
+			width: 93%;
+			height: 8vh;
+			margin: 5% auto 0 auto;
+			padding-right: 2%;
+			overflow: hidden;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: flex-start;
+			align-items: flex-start;
+			align-content: flex-start;
+			border-radius: 15px;
+			border: 1rpx solid #4B282B90;
+			position: relative;
+			opacity: 0; //配合动画
+			animation: historySe 0.5s forwards;
+			// background-color: #aaaa00;
+			
+			
+			.historySearchList{
+				margin: 0.8vh 1.5% 1.5% 1.5%;
+				padding: 3px;
+				font-size: 1.6vh;
+				line-height: 1.6vh;
+				max-width: 30%;
+				min-width: 5%;
+				min-height: 30%;
+				max-height: 30%;
+				border-radius: 5px;
+				// 单行文本溢出显示省略号，要这三个属性配合用才有效果  ######
+				white-space: nowrap;  //不进行换行
+				overflow: hidden;
+				text-overflow: ellipsis;
+				animation: moarAnim 0.5s forwards;
+				
+				background-color: #eeeeee80;
+			}
+			
+			// 点击删除历史伪元素
+			.historySearchListAfter::before{
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+				display: inline-block;
+				content: "❌";
+				font-size: 1.6vh;
+				line-height: 1.6vh;
+				background-color: #ff55ff50;
+				border-radius: 3px;
+				opacity: 0;  //配合动画
+				animation: moarAnim 0.8s forwards; 
+			}
+			
+			.delet{
+				width: 3vw;
+				position: absolute;
+				top: 3vh;
+				right: 0.5vh;
+			}
+			
+			
+		 }
+		
 		
 		
 		// 内容区

@@ -27,8 +27,6 @@ const __default__ = {
 const _sfc_main = /* @__PURE__ */ Object.assign(__default__, {
   __name: "searchBox",
   setup(__props) {
-    common_vendor.index.showLoading = () => {
-    };
     return (_ctx, _cache) => {
       return {
         a: common_vendor.p({

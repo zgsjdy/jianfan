@@ -9213,7 +9213,7 @@ class v {
 function I(e2) {
   return e2 && "string" == typeof e2 ? JSON.parse(e2) : e2;
 }
-const S = true, b = "mp-weixin", A = I(define_process_env_UNI_SECURE_NETWORK_CONFIG_default), C = b, P = I('{\n    "address": [\n        "127.0.0.1",\n        "192.168.139.71"\n    ],\n    "debugPort": 9000,\n    "initialLaunchType": "local",\n    "servePort": 7001,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/软件/hbuiderIDE/HBuilderX.4.24.2024072208/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), T = I('[{"provider":"alipay","spaceName":"jianfan","spaceId":"env-00jxhfmhzs0p","spaceAppId":"2021004188649460","accessKey":"D5ztpwq1BJVk9P6P","secretKey":"3G72kVYvXZeuNeuF"}]') || [];
+const S = true, b = "mp-weixin", A = I(define_process_env_UNI_SECURE_NETWORK_CONFIG_default), C = b, P = I('{\n    "address": [\n        "127.0.0.1",\n        "192.168.142.71"\n    ],\n    "debugPort": 9000,\n    "initialLaunchType": "local",\n    "servePort": 7001,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/软件/hbuiderIDE/HBuilderX.4.24.2024072208/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), T = I('[{"provider":"alipay","spaceName":"jianfan","spaceId":"env-00jxhfmhzs0p","spaceAppId":"2021004188649460","accessKey":"D5ztpwq1BJVk9P6P","secretKey":"3G72kVYvXZeuNeuF"}]') || [];
 let O = "";
 try {
   O = "__UNI__EDED3BF";

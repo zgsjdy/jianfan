@@ -1,0 +1,1 @@
+"use strict";const e=require("../common/vendor.js");exports.myRef=function(t,o=500){let r;return e.customRef(((e,s)=>({get:()=>(e(),t),set(e){clearTimeout(r),r=setTimeout((()=>{t=e.replace(/ /g,""),s()}),o)}})))};

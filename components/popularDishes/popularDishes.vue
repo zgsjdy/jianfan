@@ -392,7 +392,8 @@ yun('jianfandata','jfSysContentsData').then(res => {//异步
 			width: 90%;
 			background-color: #4B282B90;
 			border-radius: 50px;
-			
+			outline: 6px double #fff;
+			outline-offset: -6px; //用outline代替border是让input元素不影响布局,注意父元素溢出隐藏，太大会看不到部分边框
 			
 			.navinput{
 				height: 100%;
