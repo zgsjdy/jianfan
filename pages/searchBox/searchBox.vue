@@ -41,7 +41,7 @@
 
 
 <script setup>
-	// uni.showLoading = ()=>{}
+	uni.showLoading = ()=>{}
 </script>
 
 <style>

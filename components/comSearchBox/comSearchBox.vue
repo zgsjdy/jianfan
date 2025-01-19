@@ -1,5 +1,12 @@
 <template>
-	<view class="combox">
+	<scroll-view class="combox" 
+	scroll-y :style="`height: calc(100vh - ${botSafeHeight+menheight+statusBarHeight+3}px);`" 
+	@scrolltolower="bottomLoad.load(queryInput, contentListData.length)"  lower-threshold="30" >
+	<!-- *********注意*********  这里不需要点value 本身在模板都不需要不在js里面所以直接contentListData.length-->
+		
+		
+		<!-- 占位元素，防止使用外边距和内边距在scroll-view顶部导致会有滚动,这里的内边距是把自己撑高，实际和直接设置高度一样只不过是用内边距当高度 -->
+		<view style="width: 100%; padding-top: 2%;"></view>
 		
 		<!-- 搜索框  -->
 		<view class="searbox">
@@ -28,18 +35,21 @@
 			<view class="searTips" :style="searSL.searTispStyle">
 				<view class="searContenBox">
 					
-					<view class="searTipsList" v-for="(itme,index) in searSL.searchTispData" 
-					:key="index" :style="`margin-bottom: ${ index+1 === searSL.searchTispData.length ? 0 : '4%' };`">
-						
-						<rich-text :nodes="itme.mark" class="rich" :selectable="false" :preview="false" @click="clickDish(itme.name)"></rich-text>
-						
-						<view class="searTipsList3D">
-							<view>
-								3D3D
+					<template v-for="(itme,index) in searSL.searchTispData" :key="index" >
+						<view class="searTipsList" v-if="index < 5" >
+							
+							<rich-text :nodes="itme.mark" class="rich" :selectable="false" :preview="false" @click="clickDish(itme.name)"></rich-text>
+							
+							<!-- 3D显示菜成品图(装饰) -->
+							<view class="searTipsListbox">
+								<view class="searTipsList3D">
+									<view class="listLi" v-for="(_,index) in 6" :key="index" :style="`background-image: url(${itme.topurl});`"></view>
+								</view>
 							</view>
+							
 						</view>
-						
-					</view>
+					</template>
+					
 					
 					<!-- 加载,注意这里双引号和单引号contentText="这里面不能使用双引号，（容易忽略）" -->
 					<uni-load-more iconType="circle" :contentText="{
@@ -47,6 +57,13 @@
 						contentrefresh: '正在加载...',
 						contentnomore: '没有更多数据了'
 					}" :status="searSL.PopPromptsLoading"  />
+					
+					
+					<!-- 提示末尾水波纹效果（装饰） -->
+					<image :src="Psbimg" mode="scaleToFill" :draggable="false" 
+					style="width: 100%; height: 7vh; margin: 0; padding: 0; display: block; box-sizing: border-box; transform: translateY(-28%);" >
+					</image>
+					
 					
 				</view>
 					
@@ -60,8 +77,11 @@
 				<view v-for="(itme,index) in hSDataSL.hSarr" :key="index" 
 				class="historySearchList"
 				:class="hSDataSL.whetherDelete ? 'historySearchListAfter' : ''"
-				@click="hSDataSL.deleteAnyClick(itme, index)">{{itme}}</view>
+				@click="hSDataSL.deleteAnyClick(itme, index)">
 				<!-- 注意###### @click=“这里面只能用单引号或模板字符串注意容易忽略，会写成双引号里面套双引号”   -->
+				
+				<view class="historySearchText">{{itme}}</view>
+				</view>
 				
 				
 				<view class="delet">
@@ -88,30 +108,42 @@
 		</template>
 		<template v-else>
 			<view class="comCen">
-				<view class="comList"  v-for="(itme, index) in contentListData" :key="index">
+				<navigator class="comList" hover-class="none" 
+				v-for="(itme, index) in contentListData" :key="index"
+				:url="`/pages/displaysTheAnalyzedContent/displaysTheAnalyzedContent?nameId=${itme.name}`" >
 					<image class="comImg" :src="itme.topurl" 
 					:draggable="false" lazy-load mode="scaleToFill"></image>
 					
 					<view class="comText">{{itme.name}}</view>
-				</view>
+				</navigator>
 			</view>
 		</template>
 		
 		
-	</view>
+		<!-- 上滑加载更多 -->
+		<uni-load-more iconType="circle" :status="bottomLoad.bottStatus.value" 
+		:style="`visibility: ${ bottomLoad.bottStatus.value === 'more' ? 'hidden' : 'visible' };`"
+		:contentText="{ contentdown: ' ' }" />
+		
+	</scroll-view>
 </template>
 
 <script setup lang="ts">
-import { reactive, watch } from "vue";
-import { queryInput } from "@/utils/getSysInf.js";
+import { onBeforeUnmount, onMounted, reactive, watch } from "vue";
+import { queryInput, getTobBotMar } from "@/utils/getSysInf.js";
 import myRef from "../../utils/myRef";
 import usecomSearchBox from "../hooks/usecomSearchBox";
 import { useBotNarStor } from "@/stores/counter"; //导入pinia
 const P = useBotNarStor();  //获取pinia值
 // @ts-ignore
 const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
+//@ts-ignore
+const Psbimg = P.QJScreenOnceimg.searchBoxStatus.waterRipples;
 // console.log(Pimg)
 
+// 获取主体滚动高度
+const { menheight,statusBarHeight } = getTobBotMar('top')
+const { botSafeHeight } = getTobBotMar('bot')
 
 
 	// 搜索框返回页面函数
@@ -380,8 +412,8 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 	    return false;
 	}
 	
-	
-	let { contentListData, contentStatus, reviseStatus } = usecomSearchBox()
+	// 点击菜名导入文件和滚动到底部加载等等
+	let { contentListData, contentStatus, reviseStatus, bottomLoad } = usecomSearchBox()
 	
 	
 	// 点击菜名闭包异步函数
@@ -391,7 +423,7 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 		
 		return async function ClickDish(nameid?: string): Promise<void> {
 			let name: string = nameid || searchNameMyref.value ,res: {data: Object[]};
-			
+			if("setSatus" in bottomLoad){ bottomLoad.setSatus("more") } //防止搜索的时候底部上滑还显示没有数据这些字
 			// 判断searchNameMyref.value有没有值，nameid参数进来的都会有值
 			if(name !== nameid){
 				constnum++;
@@ -411,6 +443,7 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 				contentListData.value = newmap.get(name)
 				// in 关键字用于检查对象是否具有指定的属性（包括方法）。语法是propertyName in object
 				if("addhSarr" in hSDataSL){ hSDataSL.addhSarr(name); }
+				if("recordValue" in bottomLoad){ bottomLoad.recordValue = name } //添加上滑加载关键字
 				reviseStatus("value")
 			}else{
 				
@@ -433,6 +466,7 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 						newmap.set(name, contentListData.value)
 						// in 关键字用于检查对象是否具有指定的属性（包括方法）。语法是propertyName in object
 						if("addhSarr" in hSDataSL){ hSDataSL.addhSarr(name); }
+						if("recordValue" in bottomLoad){ bottomLoad.recordValue = name } //添加上滑加载关键字
 						reviseStatus("value")
 					}else{
 						reviseStatus("no-more")
@@ -531,7 +565,35 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 	}
 	
 	let hSDataSL: hisSear = reactive(new historySearch())
-	console.log(hSDataSL)
+	// console.log(hSDataSL)
+	
+	
+	
+	// 添加历史缓存和获取
+	onBeforeUnmount(()=>{
+		uni.setStorage({
+			key: "Searchforhistoricaldata",
+			data: hSDataSL.hSarr,
+			success() {
+				
+				// console.log("缓存成功！")
+			}
+		})
+	})
+	
+	onMounted(()=>{
+		uni.getStorage({
+			key:"Searchforhistoricaldata",
+			success(e) {
+				if(e.data.length !== 0){ hSDataSL.hSarr = e.data }
+				// console.log("获取缓存成功！",e.data)
+			}
+		})
+	})
+	
+	
+	
+	
 	
 </script>
 
@@ -578,6 +640,32 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 	
 	
 	
+	
+	// 删除历史弹删除按钮
+	@keyframes moarAnimAfter {
+		1%{
+			opacity: 0;
+			transform: translateX(-50%);
+		}
+		100%{
+			opacity: 1;
+			transform: translateX(0);
+		}
+	}
+	
+	
+	/* 定义绕Y轴转动的动画 */
+	@keyframes RotateY {
+	    0% {
+	        transform: rotateY(0);
+	    }
+	    100% {
+	        transform: rotateY(360deg);
+	    }
+	}
+	
+	
+	
 	// ********注意这里用了scoped，还用了forwards****所以用行内样式写animation将会不起效果**********
 	.moarAnim{ 
 		animation: moarAnim 0.8s forwards; 
@@ -588,7 +676,7 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 	.combox{
 		width: 98%;
 		margin: 0 auto;
-		padding-bottom: calc( env(safe-area-inset-bottom) + 3px);  //使用自带的安全距离
+		// padding-bottom: calc( env(safe-area-inset-bottom) + 3px);  //使用自带的安全距离
 		
 		
 		
@@ -597,7 +685,7 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 		.searbox{
 			width: 98%;
 			height: 5vh;
-			margin: 2% auto 0 auto;
+			margin: 0 auto;
 			padding: 2px;
 			box-sizing: border-box;
 			// overflow: hidden;
@@ -612,17 +700,16 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 				padding: 2%;
 				border-radius: 15px;
 				background-color: var(--backTisp);
-				opacity: 0; //配合动画
+				opacity: 0; //配合过度
 				transition: all 0.4s;
 				transform-origin: center top; 
-				// animation: searList 1.5s forwards;
+				background-image: linear-gradient(-180deg, #FFFEFF50 38%, #D7FFFE60 100%);
 				position: absolute;
 				top: 120%;
 				right: 10%;
 				z-index: 9;
 				
 				
-				// transform-style: preserve-3d;
 				
 				.searContenBox{
 					width: 100%;
@@ -633,7 +720,7 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 						--richWidth: 80%;
 						width: 100%;
 						height: 5vh;
-						// margin-bottom: 4%;
+						margin-bottom: 4%;
 						border-bottom: 1px dotted #aaaa00;
 						padding-bottom: 3px;
 						display: flex;
@@ -644,11 +731,77 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 							// background-color: #ff55ff50;
 						}
 						
-						.searTipsList3D{
+						
+						// 3D部分
+						.searTipsListbox{
 							width: calc(100% - var(--richWidth));
 							height: 100%;
-							background-color: #aaaa00;
+							overflow: hidden;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							/* 设置透视点,相当于摄像机的远近 */
+							perspective: 1000px;
+							// 设置摄像机的位置，注意和transform-origin不同，这个是控制变形的中心点
+							perspective-origin: -10% -130%;
+							
+							.searTipsList3D{
+								--translateZ: 8vw;
+								width: 60%;
+								height: 60%;
+								position: relative;
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								transform-style: preserve-3d;
+								/* 调用绕Y轴旋转的动画 */
+								animation: RotateY 20s linear infinite;
+								
+								.listLi{
+									background-color: #aaffff50;
+									position: absolute;
+									width: 98%;
+									height: 98%;
+									border: 0.3vh solid #aaaaff;
+									background-position: center;
+									background-size: cover;
+									border-radius: 3px;
+									
+									&:nth-child(1) {
+									    transform: translateZ(var(--translateZ));
+									}
+									
+									&:nth-child(2) {
+									    transform: rotateY(60deg) translateZ(var(--translateZ));
+									}
+									
+									&:nth-child(3) {
+									    transform: rotateY(120deg) translateZ(var(--translateZ));
+									}
+									
+									&:nth-child(4) {
+									    transform: rotateY(180deg) translateZ(var(--translateZ));
+									}
+									
+									&:nth-child(5) {
+									    transform: rotateY(240deg) translateZ(var(--translateZ));
+									}
+									
+									&:nth-child(6) {
+									    transform: rotateY(300deg) translateZ(var(--translateZ));
+									}
+									
+								}
+								
+							}
+							
 						}
+					
+					}
+					
+					// 选择searTipsList最后一个元素,注意这里用:last-child不起效果，选择范围不一样，后面还跟着有加载图标
+					.searTipsList:last-of-type{
+						margin-bottom: 0;
 					}
 					
 				}
@@ -741,36 +894,56 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 			
 			.historySearchList{
 				margin: 0.8vh 1.5% 1.5% 1.5%;
-				padding: 3px;
-				font-size: 1.6vh;
-				line-height: 1.6vh;
+				padding: 0.4vh;
 				max-width: 30%;
 				min-width: 5%;
 				min-height: 30%;
 				max-height: 30%;
 				border-radius: 5px;
-				// 单行文本溢出显示省略号，要这三个属性配合用才有效果  ######
-				white-space: nowrap;  //不进行换行
-				overflow: hidden;
-				text-overflow: ellipsis;
 				animation: moarAnim 0.5s forwards;
-				
+				transition: all 0.1s;
 				background-color: #eeeeee80;
+				position: relative;
+				
+				.historySearchText{
+					width: 100%;
+					height: 100%;
+					text-align: center;
+					font-size: 1.6vh;
+					line-height: 1.6vh;
+					// 单行文本溢出显示省略号，要这三个属性配合用才有效果  ######
+					white-space: nowrap;  //不进行换行
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+				
 			}
 			
+			.historySearchList:active{
+				background-color: #bebebe;
+			}
+			
+			// 点击删除历史修改部分原本样式配合伪元素
+			.historySearchListAfter{
+				border-radius: 5px 0 0 5px;
+			}
 			// 点击删除历史伪元素
 			.historySearchListAfter::before{
 				box-sizing: border-box;
 				margin: 0;
-				padding: 0;
-				display: inline-block;
+				padding: 0.5vh 0 0 0;
+				height: 100%;
+				display: block;
 				content: "❌";
-				font-size: 1.6vh;
-				line-height: 1.6vh;
-				background-color: #ff55ff50;
-				border-radius: 3px;
+				font-size: 1vh;
+				background-color: #ffc0f9;
+				border-radius: 0 5px 5px 0;
+				position: absolute;
+				top: 0vh;
+				right: -1vh;
+				z-index: 9;
 				opacity: 0;  //配合动画
-				animation: moarAnim 0.8s forwards; 
+				animation: moarAnimAfter 0.8s forwards; 
 			}
 			
 			.delet{
@@ -788,7 +961,6 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 		// 内容区
 		.comCen{
 			width: 98%;
-			// background-color: #55aaff;
 			display: flex;
 			flex-wrap: wrap;
 			align-items: flex-start;
@@ -797,13 +969,14 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 			
 			.comList{
 				--ImgHeight: 80%; //图片的高度，方便其他模块动态计算高度
-				
+				box-sizing: border-box;
 				background-color: #ff55ff50;
 				width: 46%;
 				height: 25vh;
 				margin: 2%;
 				padding: 10px;
 				border-radius: 15px;
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 				overflow: hidden;
 				opacity: 0;  //配合动画
 				animation: searList 1.5s forwards;
@@ -830,9 +1003,13 @@ const Pimg = P.QJScreenOnceimg.searchBoxStatus.NoResults;
 			}
 			
 			
+			.comList:active{
+				// 由于comList用了动画固定所以不用!important，将无效果，过度用了!important也无效果
+				opacity: 0.8 !important;
+				transform: scale(0.98,0.98) translateY(-5px) !important;
+			}
+			
 		}
-		
-		
 		
 	}
 </style>
