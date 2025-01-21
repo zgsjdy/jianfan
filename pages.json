@@ -1,97 +1,111 @@
 {
-    "pages" : [
-        //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-        {
-            "path" : "pages/index/index",
-            "style" : {
-                "navigationBarTitleText" : "简Fan"
-            }
-        },
-        {
-            "path" : "pages/chooseVegetables/chooseVegetables",
-            "style" : {
-                "navigationBarTitleText" : "简Fan"
-            }
-        },
-        {
-            "path" : "pages/meatSelection/meatSelection",
-            "style" : {
-                "navigationBarTitleText" : "简Fan"
-            }
-        },
-        {
-            "path" : "pages/personalCentre/personalCentre",
-            "style" : {
-                "navigationBarTitleText" : "简Fan"
-            }
-        },
-        {
-            "path" : "components/material/material",
-            "style" : {}
-        },
-        {
-        	"path" : "pages/displaysTheAnalyzedContent/displaysTheAnalyzedContent",
-        	"style" : 
-        	{
-        		"navigationBarTitleText" : "简Fan"
-        	}
-        },
-        {
-        	"path" : "pages/listOfMatches/listOfMatches",
-        	"style" : 
-        	{
-        		"navigationBarTitleText" : "简Fan"
-        	}
-        },
-        {
-        	"path" : "pages/searchBox/searchBox",
-        	"style" : 
-        	{
-        		"navigationBarTitleText" : "简Fan"
-        	}
-        }
-    ],
-    "globalStyle" : {
-        "navigationBarTextStyle" : "black",
-        "navigationBarTitleText" : "简Fan",
-        "navigationBarBackgroundColor" : "#F8F8F8",
-        "backgroundColor" : "#F8F8F8",
-        "navigationStyle" : "custom" //取消了默认的顶部导航栏
-    },
-    // 默认底部导航栏不设置无法使用链接跳转和api跳转
-    "tabBar" : {
-        "color" : "#7A7E83",
-        "selectedColor" : "#3cc51f",
-        "backgroundColor" : "#ffffff",
-        "borderStyle" : "black",
-        "custom" : true, //取消了默认的底部导航栏
-        "list" : [
-            {
-                "pagePath" : "pages/index/index",
-                "text" : "合成",
-                "iconPath" : "static/imgs/pingdiguo.png",
-                "selectedIconPath" : "static/imgs/pingdiguo.png"
-            },
-            {
-                "pagePath" : "pages/chooseVegetables/chooseVegetables",
-                "text" : "蔬菜",
-                "iconPath" : "static/imgs/baicai1.png",
-                "selectedIconPath" : "static/imgs/baicai.png"
-            },
-            {
-                "pagePath" : "pages/meatSelection/meatSelection",
-                "text" : "肉类",
-                "iconPath" : "static/imgs/jitui1.png",
-                "selectedIconPath" : "static/imgs/jitui.png"
-            },
-            {
-                "pagePath" : "pages/personalCentre/personalCentre",
-                "text" : "萃盒"
-            }
-        ]
-    },
-    // "iconPath": "static/imgs/mao.png",
-    // "selectedIconPath": "static/imgs/wumaomao.png"
-    "uniIdRouter" : {}
-	
+	"pages": [{
+		"path": "pages/index/index",
+		"style": {
+			"navigationBarTitleText": "简Fan"
+		}
+	}, {
+		"path": "pages/chooseVegetables/chooseVegetables",
+		"style": {
+			"navigationBarTitleText": "简Fan"
+		}
+	}, {
+		"path": "pages/meatSelection/meatSelection",
+		"style": {
+			"navigationBarTitleText": "简Fan"
+		}
+	}],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "简Fan",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8",
+		"navigationStyle": "custom" //取消了默认的顶部导航栏
+	},
+	// 默认底部导航栏不设置无法使用链接跳转和api跳转
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#3cc51f",
+		"backgroundColor": "#ffffff",
+		"borderStyle": "black",
+		"custom": true, //取消了默认的底部导航栏
+		"list": [{
+			"pagePath": "pages/chooseVegetables/chooseVegetables",
+			"text": "蔬菜",
+			"iconPath": "static/imgs/baicai1.png",
+			"selectedIconPath": "static/imgs/baicai.png"
+		}, {
+			"pagePath": "pages/index/index",
+			"text": "合成",
+			"iconPath": "static/imgs/pingdiguo1.png",
+			"selectedIconPath": "static/imgs/pingdiguo.png"
+		}, {
+			"pagePath": "pages/meatSelection/meatSelection",
+			"text": "肉类",
+			"iconPath": "static/imgs/jitui1.png",
+			"selectedIconPath": "static/imgs/jitui.png"
+		}]
+	},
+	// "iconPath": "static/imgs/mao.png",
+	// "selectedIconPath": "static/imgs/wumaomao.png"
+	"uniIdRouter": {},
+	"subPackages": [{
+		"root": "pagesResource",
+		"pages": [{
+			"path": "displaysTheAnalyzedContent/displaysTheAnalyzedContent",
+			"style": {
+				"navigationBarTitleText": "简Fan"
+			}
+		}, {
+			"path": "searchBox/searchBox",
+			"style": {
+				"navigationBarTitleText": "简Fan"
+			}
+		}, {
+			"path": "listOfMatches/listOfMatches",
+			"style": {
+				"navigationBarTitleText": "简Fan"
+			}
+		}]
+	}, {
+		"root": "pagesUserCenter",
+		"pages": [{
+			"path": "personalCentre/personalCentre",
+			"style": {
+				"navigationBarTitleText": "简Fan"
+			}
+		}]
+	}],
+
+	"preloadRule": {
+		"pages/index/index": {
+			"network": "all",
+			"packages": ["pagesResource"]
+		},
+		"pages/chooseVegetables/chooseVegetables": {
+			"network": "all",
+			"packages": ["__APP__", "pagesResource"]
+		},
+		"pages/meatSelection/meatSelection": {
+			"network": "all",
+			"packages": ["__APP__", "pagesResource"]
+		},
+		"pagesResource/displaysTheAnalyzedContent/displaysTheAnalyzedContent": {
+			"network": "all",
+			"packages": ["__APP__"]
+		},
+		"pagesResource/listOfMatches/listOfMatches": {
+			"network": "all",
+			"packages": ["__APP__"]
+		},
+		"pagesResource/searchBox/searchBox": {
+			"network": "all",
+			"packages": ["__APP__"]
+		},
+		"pagesUserCenter/personalCentre/personalCentre": {
+			"network": "all",
+			"packages": ["__APP__"]
+		}
+	}
+
 }

@@ -3,7 +3,7 @@
 		<view class="gridcontainer">
 			<navigator class="griditem" v-for="(itme,index) in listpou.populist" :key="index" 
 			hover-class="griditemHoverClass" 
-			:url="`/pages/displaysTheAnalyzedContent/displaysTheAnalyzedContent?nameId=${itme.name}`">
+			:url="`/pagesResource/displaysTheAnalyzedContent/displaysTheAnalyzedContent?nameId=${itme.name}`">
 				<!-- mode="值最好不要有要裁剪的或截取的"在swiper等地方会卡因为动画（不使用也不一定不卡）加image裁剪会卡一下  -->
 				<image :src="itme.url" mode="scaleToFill" :draggable="false" lazy-load @load="navimgload(index)"></image>
 				<view class="grtext">

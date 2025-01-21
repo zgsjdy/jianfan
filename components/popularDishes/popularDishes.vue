@@ -6,7 +6,7 @@
 	<!-- 轮播图部分 -->
 	<swiper autoplay circular class="swi" :class="swiclass" :style="`opacity: ${swiclass === '' ? 1 : 0};`">
 		<swiper-item v-for="(itme,index) in swiperData.popularDishesSwiper" :key="index">
-			<navigator class="nav" hover-class="none" :url="`/pages/displaysTheAnalyzedContent/displaysTheAnalyzedContent?nameId=${itme[0]}`">
+			<navigator class="nav" hover-class="none" :url="`/pagesResource/displaysTheAnalyzedContent/displaysTheAnalyzedContent?nameId=${itme[0]}`">
 				<!-- mode="值最好不要有要裁剪的或截取的"在swiper等地方会卡因为动画（不使用也不一定不卡）加image裁剪会卡一下  -->
 				<image style="width:100%; height:100%;" class="navimg" :src="itme[1]" mode="scaleToFill" :draggable="false" @load="navimgload(index)" ></image>
 				<view class="navtext">
@@ -18,7 +18,7 @@
 	
 	
 	<!-- 搜索框 跳转 -->
-	<navigator url="/pages/searchBox/searchBox" hover-class="none" class="searbox">
+	<navigator url="/pagesResource/searchBox/searchBox" hover-class="none" class="searbox">
 		<view class="sealeft">
 			<input type="text" confirm-type="search" cursor-color="#914600" disabled class="navinput"/>
 			
@@ -46,7 +46,7 @@
 		<!-- 内容区 -->
 		<scroll-view class="scrollcen" scroll-x enable-flex >
 			<navigator 
-			:url="`/pages/displaysTheAnalyzedContent/displaysTheAnalyzedContent?nameId=${itme}`" 
+			:url="`/pagesResource/displaysTheAnalyzedContent/displaysTheAnalyzedContent?nameId=${itme}`" 
 			class="poplist" 
 			hover-class="navcovered"
 			v-for="(itme,index) in popular.data" 
@@ -87,7 +87,7 @@
 
 <script setup>
 import { onMounted, reactive, ref, watch } from 'vue';
-import { yun } from '../../utils/getSysInf';
+import { yun } from '@/utils/getSysInf';
 import { useBotNarStor } from '@/stores/counter';//导入pinia，不使用数据集中管理无法实现图标切换，页面切换会更新变回默认值
 const goToData = useBotNarStor()//获取pinia数据
 
@@ -211,7 +211,7 @@ yun('jianfandata','jfSysContentsData').then(res => {//异步
 			
 			//跳转匹配页面列表页面
 			uni.navigateTo({
-				url:'/pages/listOfMatches/listOfMatches',
+				url:'/pagesResource/listOfMatches/listOfMatches',
 			});
 			
 			// 更新打乱弹出分析img数组函数

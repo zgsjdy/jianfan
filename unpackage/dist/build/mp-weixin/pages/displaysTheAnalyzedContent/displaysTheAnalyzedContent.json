@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "简Fan",
-  "usingComponents": {
-    "cooking-details-module": "../../components/cookingDetailsModule/cookingDetailsModule"
-  }
-}

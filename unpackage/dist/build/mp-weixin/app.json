@@ -2,12 +2,23 @@
   "pages": [
     "pages/index/index",
     "pages/chooseVegetables/chooseVegetables",
-    "pages/meatSelection/meatSelection",
-    "pages/personalCentre/personalCentre",
-    "components/material/material",
-    "pages/displaysTheAnalyzedContent/displaysTheAnalyzedContent",
-    "pages/listOfMatches/listOfMatches",
-    "pages/searchBox/searchBox"
+    "pages/meatSelection/meatSelection"
+  ],
+  "subPackages": [
+    {
+      "root": "pagesResource",
+      "pages": [
+        "displaysTheAnalyzedContent/displaysTheAnalyzedContent",
+        "searchBox/searchBox",
+        "listOfMatches/listOfMatches"
+      ]
+    },
+    {
+      "root": "pagesUserCenter",
+      "pages": [
+        "personalCentre/personalCentre"
+      ]
+    }
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -24,28 +35,70 @@
     "custom": true,
     "list": [
       {
-        "pagePath": "pages/index/index",
-        "text": "合成",
-        "iconPath": "static/imgs/pingdiguo.png",
-        "selectedIconPath": "static/imgs/pingdiguo.png"
-      },
-      {
         "pagePath": "pages/chooseVegetables/chooseVegetables",
         "text": "蔬菜",
         "iconPath": "static/imgs/baicai1.png",
         "selectedIconPath": "static/imgs/baicai.png"
       },
       {
+        "pagePath": "pages/index/index",
+        "text": "合成",
+        "iconPath": "static/imgs/pingdiguo1.png",
+        "selectedIconPath": "static/imgs/pingdiguo.png"
+      },
+      {
         "pagePath": "pages/meatSelection/meatSelection",
         "text": "肉类",
         "iconPath": "static/imgs/jitui1.png",
         "selectedIconPath": "static/imgs/jitui.png"
-      },
-      {
-        "pagePath": "pages/personalCentre/personalCentre",
-        "text": "萃盒"
       }
     ]
+  },
+  "preloadRule": {
+    "pages/index/index": {
+      "network": "all",
+      "packages": [
+        "pagesResource"
+      ]
+    },
+    "pages/chooseVegetables/chooseVegetables": {
+      "network": "all",
+      "packages": [
+        "__APP__",
+        "pagesResource"
+      ]
+    },
+    "pages/meatSelection/meatSelection": {
+      "network": "all",
+      "packages": [
+        "__APP__",
+        "pagesResource"
+      ]
+    },
+    "pagesResource/displaysTheAnalyzedContent/displaysTheAnalyzedContent": {
+      "network": "all",
+      "packages": [
+        "__APP__"
+      ]
+    },
+    "pagesResource/listOfMatches/listOfMatches": {
+      "network": "all",
+      "packages": [
+        "__APP__"
+      ]
+    },
+    "pagesResource/searchBox/searchBox": {
+      "network": "all",
+      "packages": [
+        "__APP__"
+      ]
+    },
+    "pagesUserCenter/personalCentre/personalCentre": {
+      "network": "all",
+      "packages": [
+        "__APP__"
+      ]
+    }
   },
   "usingComponents": {
     "nav-bar-q-j": "/components/navBar/navBar",

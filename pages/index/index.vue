@@ -42,21 +42,19 @@
 		
 		
 		
-		
 		<!--  底部导航栏   -->
 		<botNavBarQJ v-if="bottf.QJScreenOnce.botNav"></botNavBarQJ>				
 	</view>
 </template>
 
 <script>
-// ****************这个是vue3没有语法糖的写法文件*****************
 import { ref } from 'vue'
 import { useBotNarStor } from '@/stores/counter'  //导入pinia
 
 	export default{
 		name:"index",
 		setup(props, context) {
-			// ****************这个是vue3没有语法糖的写法文件*****************
+			// ****************这个是没有vue3语法糖的写法文件,导入局部组件等等要注册*****************
 			const bottf = useBotNarStor()  //获取pinia数据
 			// console.log(bottf.QJScreenOnce.botNav)
 			

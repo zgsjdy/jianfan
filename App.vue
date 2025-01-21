@@ -5,13 +5,80 @@
 			
 			
 			
-			console.log('App Launch')
+			/**
+			 * 定义一个全局深拷贝函数,用uni这个对象（不推荐）
+			 * 有些特殊值不支持（正则，symbol，时间等等），函数直接返回不生成新的
+			 * @param {any} value - 要拷贝的值
+			 * @return {any} 像的值
+			*/
+			uni.deepClone = (value, visited = new WeakMap()) => {
+				
+			  // 不处理的特殊数据类型
+			  if (value instanceof Date || value instanceof RegExp || typeof value === 'symbol') {
+			    throw new Error(`特殊数据类型不进行深拷贝，当前传入的数据类型是：${typeof value}`);
+			  }
+			  
+			  // 处理 null 和基本数据类型，（包过函数，函数直接返回不用生成新的）
+			  if (value === null || typeof value !== 'object') {
+			    return value;
+			  }
+			  
+			  // 检查是否已经拷贝过该对象
+			  if (visited.has(value)) {
+			    return visited.get(value);
+			  }
+			
+			  // 处理数组
+			  if (Array.isArray(value)) {
+			    let newArray = [];
+			    visited.set(value, newArray);
+			    for (let i = 0; i < value.length; i++) {
+			      newArray.push(uni.deepClone(value[i], visited));
+			    }
+			    return newArray;
+			  }
+			
+			  // 处理 Map
+			  if (value instanceof Map) {
+			    let newMap = new Map();
+			    visited.set(value, newMap);
+			    for (let [key, val] of value) {
+			      newMap.set(uni.deepClone(key, visited), uni.deepClone(val, visited));
+			    }
+			    return newMap;
+			  }
+			
+			  // 处理 Set
+			  if (value instanceof Set) {
+			    let newSet = new Set();
+			    visited.set(value, newSet);
+			    for (let item of value) {
+			      newSet.add(uni.deepClone(item, visited));
+			    }
+			    return newSet;
+			  }
+			
+			  // 处理普通对象，（注意顺序）
+			  let newObj = {};
+			  visited.set(value, newObj);
+			  for (let key in value) {
+			    if (value.hasOwnProperty(key)) {
+			      newObj[key] = uni.deepClone(value[key], visited);
+			    }
+			  }
+			
+			  return newObj;
+			};
+			
+			
+			
+			// console.log('App Launch')
 		},
 		onShow: function() {
-			console.log('App Show')
+			// console.log('App Show')
 		},
 		onHide: function() {
-			console.log('App Hide')
+			// console.log('App Hide')
 		},
 		// 定义uniapp自带的全局变量
 		globalData:{

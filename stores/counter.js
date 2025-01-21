@@ -68,7 +68,7 @@ export const useBotNarStor = defineStore("jfStoresData",{
 									
 						}
 					});
-				}else{console.log("setbot相等不运行！")}
+				}/* else{console.log("setbot相等不运行！")} */
 			}catch(e){
 				throw new Error(`参数错误setBotNar，默认null${e}`);
 			}
@@ -87,7 +87,7 @@ export const useBotNarStor = defineStore("jfStoresData",{
 							return index === id ? anmiclass : null;
 						 })
 					},80)
-				}else{console.log("anim相等不运行")}
+				}/* else{console.log("anim相等不运行")} */
 			}catch(e){
 				throw new Error(`参数错误setanim，默认null${e}`);
 			}

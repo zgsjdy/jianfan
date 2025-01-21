@@ -1,0 +1,1 @@
+<view class="bodyboxback" style="overflow-x:hidden;overflow-y:scroll"><nav-bar-q-j wx:if="{{a}}" u-i="20f5833b-0" bind:__l="__l" u-p="{{a}}"></nav-bar-q-j><com-search-box u-i="20f5833b-1" bind:__l="__l"></com-search-box></view>

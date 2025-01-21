@@ -68,7 +68,7 @@
 							type="primary" 
 							:plain="bouttclass.pi[1]">肉类</button>
 							
-							<navigator url="/pages/listOfMatches/listOfMatches" class="navgat" >合成👌</navigator>
+							<navigator url="/pagesResource/listOfMatches/listOfMatches" class="navgat" >合成👌</navigator>
 							
 						</view>
 						<view class="right">
